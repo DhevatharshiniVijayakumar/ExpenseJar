@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expenslar - Personal Expense Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+    <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+  <body>
+    <div id="app">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <span class="logo-icon">₹</span>
+          <span class="logo-text">Expenslar</span>
+        </div>
+        <p class="sidebar-subtitle">Personal Expense Tracker</p>
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-item active" data-page="dashboard">Dashboard</a>
+          <a href="#" class="nav-item" data-page="expenses">Expenses</a>
+          <a href="#" class="nav-item" data-page="budgets">Budgets</a>
+          <a href="#" class="nav-item" data-page="categories">Categories</a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Dashboard Page -->
+        <section id="page-dashboard" class="page active">
+          <header class="page-header">
+            <div>
+              <h1>Dashboard</h1>
+              <p class="page-subtitle">Overview of your spending and budgets</p>
+            </div>
+            <button class="btn btn-primary" id="btn-add-expense-dashboard">+ Add Expense</button>
+          </header>
+
+          <!-- Summary Cards -->
+          <div class="cards-grid" id="dashboard-cards">
+            <div class="card summary-card">
+              <p class="card-label">Total Spent</p>
+              <p class="card-value" id="total-spent">—</p>
+            </div>
+            <div class="card summary-card">
+              <p class="card-label">Total Budget</p>
+              <p class="card-value" id="total-budget">—</p>
+            </div>
+            <div class="card summary-card">
+              <p class="card-label">Budget Used</p>
+              <p class="card-value" id="budget-used">—</p>
+            </div>
+            <div class="card summary-card">
+              <p class="card-label">Remaining</p>
+              <p class="card-value" id="remaining">—</p>
+            </div>
+          </div>
+
+          <!-- Monthly Spending -->
+          <div class="card section-card">
+            <div class="section-header">
+              <h2>Monthly Spending</h2>
+              <div class="month-selector">
+                <select id="dashboard-year"></select>
+                <select id="dashboard-month"></select>
+              </div>
+            </div>
+            <p class="monthly-total" id="monthly-total">—</p>
+            <div id="monthly-breakdown"></div>
+          </div>
+
+          <!-- Category Spending -->
+          <div class="card section-card">
+            <h2>Category Spending (This Month)</h2>
+            <div id="category-spending"></div>
+          </div>
+
+          <!-- Budget Progress -->
+          <div class="card section-card">
+            <h2>Budget Progress</h2>
+            <div id="budget-progress"></div>
+          </div>
+
+          <!-- Recent Expenses -->
+          <div class="card section-card">
+            <h2>Recent Expenses</h2>
+            <div id="recent-expenses"></div>
+          </div>
+        </section>
+
+        <!-- Expenses Page -->
+        <section id="page-expenses" class="page">
+          <header class="page-header">
+            <div>
+              <h1>Expenses</h1>
+              <p class="page-subtitle">All your expenses in one place</p>
+            </div>
+            <button class="btn btn-primary" id="btn-add-expense">+ Add Expense</button>
+          </header>
+
+          <div class="card section-card">
+            <div class="filters">
+              <input type="text" id="expense-search" placeholder="Search description..." class="filter-input" />
+              <select id="expense-filter-category" class="filter-input">
+                <option value="">All Categories</option>
+              </select>
+              <select id="expense-filter-month" class="filter-input">
+                <option value="">All Months</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th class="amount-col">Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="expenses-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Budgets Page -->
+        <section id="page-budgets" class="page">
+          <header class="page-header">
+            <div>
+              <h1>Budgets</h1>
+              <p class="page-subtitle">Track your spending limits by category</p>
+            </div>
+            <button class="btn btn-primary" id="btn-add-budget">+ Add Budget</button>
+          </header>
+          <div class="card section-card">
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Month</th>
+                    <th class="amount-col">Budget</th>
+                    <th class="amount-col">Spent</th>
+                    <th class="amount-col">Remaining</th>
+                    <th>Used</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="budgets-table-body"></tbody>
+            </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Categories Page -->
+        <section id="page-categories" class="page">
+          <header class="page-header">
+            <div>
+              <h1>Categories</h1>
+              <p class="page-subtitle">Manage your expense categories</p>
+            </div>
+            <button class="btn btn-primary" id="btn-add-category">+ Add Category</button>
+          </header>
+          <div class="card section-card">
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Category Name</th>
+                  </tr>
+                </thead>
+                <tbody id="categories-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Add Expense Modal -->
+      <div class="modal-overlay" id="modal-expense">
+        <div class="modal">
+          <div class="modal-header">
+            <h2>Add Expense</h2>
+            <button class="modal-close" data-close>×</button>
+          </div>
+          <form id="form-expense" class="modal-form">
+            <label>Amount (₹)<input type="number" id="expense-amount" step="0.01" min="0" required /></label>
+            <label>Category
+              <select id="expense-category" required></select>
+            </label>
+            <label>Date<input type="date" id="expense-date" required /></label>
+            <label>Description<input type="text" id="expense-description" required /></label>
+            <div class="modal-actions">
+              <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+              <button type="submit" class="btn btn-primary" id="submit-expense">Add Expense</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Add Budget Modal -->
+      <div class="modal-overlay" id="modal-budget">
+        <div class="modal">
+          <div class="modal-header">
+            <h2>Add Budget</h2>
+            <button class="modal-close" data-close>×</button>
+          </div>
+          <form id="form-budget" class="modal-form">
+            <label>Category
+              <select id="budget-category" required></select>
+            </label>
+            <label>Budget Amount (₹)<input type="number" id="budget-amount" step="0.01" min="0" required /></label>
+            <label>Month<input type="month" id="budget-month" required /></label>
+            <div class="modal-actions">
+              <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+              <button type="submit" class="btn btn-primary" id="submit-budget">Add Budget</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Add Category Modal -->
+      <div class="modal-overlay" id="modal-category">
+        <div class="modal">
+          <div class="modal-header">
+            <h2>Add Category</h2>
+            <button class="modal-close" data-close>×</button>
+          </div>
+          <form id="form-category" class="modal-form">
+            <label>Category Name<input type="text" id="category-name" required /></label>
+            <div class="modal-actions">
+              <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+              <button type="submit" class="btn btn-primary" id="submit-category">Add Category</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Toast notifications -->
+      <div id="toast-container"></div>
+    </div>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
